@@ -54,8 +54,7 @@ public class BookDAO {
 	}
 
 	public void realese(int id) {
-		jdbcTemplate.update("UPDATE Book SET person_id=? WHERE book_id=?",
-							null, id);
+		jdbcTemplate.update("UPDATE Book SET person_id=NULL WHERE book_id=?",id);
 	}
 
 	public void appoint(int personId, int bookId) {

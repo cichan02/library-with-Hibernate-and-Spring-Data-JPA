@@ -34,7 +34,7 @@ public class PersonDAO {
 	}
 	
 	public List<Book> getPersonBooks(int id) {
-		return jdbcTemplate.query("SELECT Book.book_id, Book.name, Book.author, Book.year FROM Person JOIN Book ON Person.person_id=Book.person_id WHERE Person.person_id=?",
+		return jdbcTemplate.query("SELECT book_id, name, author, year FROM Book WHERE person_id=?",
 									new BookMapper(), id);
 	}
 

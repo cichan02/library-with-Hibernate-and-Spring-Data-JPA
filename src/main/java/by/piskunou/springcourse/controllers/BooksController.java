@@ -1,5 +1,7 @@
 package by.piskunou.springcourse.controllers;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +40,16 @@ public class BooksController {
 	}
 	
 	@GetMapping("/{id}")
-	public String particularBook(Model model, @ModelAttribute Person person,
-								@PathVariable int id) {
+	public String particularBook(Model model, @PathVariable int id) {
 		model.addAttribute("book", bookDAO.getBook(id));
-		model.addAttribute("owner", bookDAO.getBookOwner(id));
-		model.addAttribute("people", personDAO.getEveryone());
+		
+		Optional<Person> owner = bookDAO.getBookOwner(id);
+		if(owner.isPresent()) {
+			model.addAttribute("owner", owner.get());
+		} else {
+			model.addAttribute("person", new Person());
+			model.addAttribute("people", personDAO.getEveryone());
+		}
 		return "books/book";
 	}
 	
