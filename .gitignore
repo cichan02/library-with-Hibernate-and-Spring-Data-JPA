@@ -135,6 +135,7 @@ buildNumber.properties
 .mvn/timing.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
+*.properties
 
 # Eclipse m2e generated files
 # Eclipse Core
@@ -143,4 +144,3 @@ buildNumber.properties
 .classpath
 
 # End of https://www.toptal.com/developers/gitignore/api/eclipse,git,java,linux,maven,web
-

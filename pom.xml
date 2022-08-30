@@ -56,7 +56,13 @@
 	    <artifactId>spring-webmvc</artifactId>
 	    <version>${spring.version}</version>
 	</dependency>
-
+	
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-jdbc</artifactId>
+	    <version>${spring.version}</version>
+	</dependency>
 
 	<!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5 -->
 	<dependency>
@@ -77,9 +83,9 @@
 	<dependency>
 	    <groupId>org.hibernate.validator</groupId>
 	    <artifactId>hibernate-validator</artifactId>
-	    <version>7.0.5.Final</version>
+	    <version>6.2.4.Final</version>
 	</dependency>
-	
+
 	<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 	<dependency>
 	    <groupId>org.postgresql</groupId>
