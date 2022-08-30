@@ -18,14 +18,20 @@
 	<div th:unless="${owner.isPresent()}">
 		<p>The book is free. Who want to take it?</p>
 		
-		<form th:method="patch" th:action="@{/books/{id}/appoint(id=${book.getId()})}">
-		 	<label for="person">Choose person</label>
-		 	<select th:object="${person}" th:field="*{id}" id="person">
-		 		<option th:each="person: ${people}" th:value="${person.getId()}"
-		 				th:text="${person.getFullname()}"></option>
-		 	</select>
-	 		<input type="submit" value="Appoint the book"/>
-		</form>
+		<div th:if="${people.isEmpty()}">
+			<p>Oops! There is no person to appoint</p>		
+			<a th:href="@{/people/new}">Create new person</a>
+		</div>
+		<div th:unless="${people.isEmpty()}">
+			<form th:method="patch" th:action="@{/books/{id}/appoint(id=${book.getId()})}">
+			 	<label for="person">Choose person</label>
+			 	<select th:object="${person}" th:field="*{id}" id="person">
+			 		<option th:each="person: ${people}" th:value="${person.getId()}"
+			 				th:text="${person.getFullname()}"></option>
+			 	</select>
+		 		<input type="submit" value="Appoint the book"/>
+			</form>
+		</div>
 	</div>
 	
 	<hr/>
