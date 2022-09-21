@@ -1,5 +1,7 @@
 package by.piskunou.springcourse.controllers;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,32 +16,39 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import by.piskunou.springcourse.dao.PersonDAO;
 import by.piskunou.springcourse.models.Person;
+import by.piskunou.springcourse.services.PeopleService;
 import by.piskunou.springcourse.util.PersonValidator;
 
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
-	private final PersonDAO personDAO;
+	private static final String HOME_PAGE = "redirect:/people";
+
+	private final PeopleService peopleService;
 	private final PersonValidator personValidator;
 	
 	@Autowired
-	public PeopleController(PersonDAO personDAO, PersonValidator personValidator) {
-		this.personDAO = personDAO;
+	public PeopleController(PeopleService peopleService, PersonValidator personValidator) {
+		this.peopleService = peopleService;
 		this.personValidator = personValidator;
 	}
 	
 	@GetMapping
 	public String everyone(Model model) {
-		model.addAttribute("people", personDAO.getEveryone());
+		model.addAttribute("people", peopleService.findAll());
 		return "people/everyone";
 	}
 	
 	@GetMapping("/{id}")
 	public String particularPerson(@PathVariable int id, Model model) {
-		model.addAttribute("person", personDAO.getPerson(id));
-		model.addAttribute("personBooks", personDAO.getPersonBooks(id));
+		Optional<Person> person = peopleService.findById(id);
+		if(person.isEmpty()) {
+			return HOME_PAGE;
+		}
+			
+		model.addAttribute("person", person.get());
+		model.addAttribute("personBooks", peopleService.findPersonBooksById(id));
 		return "people/person";
 	}
 	
@@ -55,13 +64,18 @@ public class PeopleController {
 			return "people/new";
 		}
 		
-		personDAO.create(person);	
-		return "redirect:/people";
+		peopleService.save(person);	
+		return HOME_PAGE;
 	}
 	
 	@GetMapping("/{id}/edit")
 	public String edit(@PathVariable int id, Model model){
-		model.addAttribute("person", personDAO.getPerson(id));
+		Optional<Person> person = peopleService.findById(id);
+		if(person.isEmpty()) {
+			return HOME_PAGE;
+		}
+		
+		model.addAttribute("person", person.get());
 		return "people/edit";
 	}
 	
@@ -73,13 +87,13 @@ public class PeopleController {
 			return "people/edit";
 		}
 		
-		personDAO.update(id, person);
-		return "redirect:/people";
+		peopleService.update(id, person);
+		return HOME_PAGE;
 	}
 	
 	@DeleteMapping("/{id}")
 	public String delete(@PathVariable int id) {
-		personDAO.delete(id);
-		return "redirect:/people";
+		peopleService.deleteById(id);
+		return HOME_PAGE;
 	}
 }

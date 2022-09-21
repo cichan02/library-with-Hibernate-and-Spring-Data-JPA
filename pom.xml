@@ -5,12 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>by.piskunou.springcourse</groupId>
-  <artifactId>library</artifactId>
+  <artifactId>library-with-Hibernate-and-Spring-Data-JPA</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <name>library Maven Webapp</name>
-  <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
   <properties>
@@ -19,15 +18,17 @@
     <maven.compiler.target>15</maven.compiler.target>
     
     <spring.version>5.2.22.RELEASE</spring.version>
+    <hibernate.version>5.6.10.Final</hibernate.version>
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
+  	<!-- https://mvnrepository.com/artifact/junit/junit -->
+	<dependency>
+	    <groupId>junit</groupId>
+	    <artifactId>junit</artifactId>
+	    <version>4.13.2</version>
+	    <scope>test</scope>
+	</dependency>
     
     <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
 	<dependency>
@@ -63,6 +64,13 @@
 	    <artifactId>spring-jdbc</artifactId>
 	    <version>${spring.version}</version>
 	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-orm</artifactId>
+	    <version>${spring.version}</version>
+	</dependency>
 
 	<!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5 -->
 	<dependency>
@@ -85,6 +93,13 @@
 	    <artifactId>hibernate-validator</artifactId>
 	    <version>6.2.4.Final</version>
 	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+	<dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-core</artifactId>
+	    <version>${hibernate.version}</version>
+	</dependency>
 
 	<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 	<dependency>
@@ -92,6 +107,13 @@
 	    <artifactId>postgresql</artifactId>
 	    <version>42.4.2</version>
 	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa -->
+	<dependency>
+	    <groupId>org.springframework.data</groupId>
+	    <artifactId>spring-data-jpa</artifactId>
+	    <version>2.3.9.RELEASE</version>
+	</dependency>  
   </dependencies>
 
   <build>

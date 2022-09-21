@@ -1,3 +1,6 @@
+DELETE FROM Book;
+DELETE FROM Person;
+
 INSERT INTO Person(fullname, year_of_birth) VALUES('Keturah Gervais', 1970);
 INSERT INTO Person(fullname, year_of_birth) VALUES('Diane Basham', 1960);
 INSERT INTO Person(fullname, year_of_birth) VALUES('Keylor Askins', 1989);
