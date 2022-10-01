@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,28 @@ public class BooksService {
 	
 	public List<Book> findAll() {
 		return booksRepo.findAll();
+	}
+	
+	public List<Book> findAll(Optional<Integer> page,
+							Optional<Integer> booksPerPage,
+							boolean sortByYear) throws IllegalArgumentException {
+		if(page.isPresent() && booksPerPage.isPresent()) {
+			if(sortByYear) {
+				return booksRepo.findAll(PageRequest.of(page.get().intValue(),
+														booksPerPage.get().intValue(),
+														Sort.by("year")))	
+								.getContent();
+			} else {
+				return booksRepo.findAll(PageRequest.of(page.get().intValue(),
+														booksPerPage.get().intValue()))
+								.getContent();
+			}
+		}	
+		return findAll();
+	}
+	
+	public List<Book> findByNameContaining(String inquery) {
+		return booksRepo.findByNameContaining(inquery);
 	}
 	
 	@Transactional

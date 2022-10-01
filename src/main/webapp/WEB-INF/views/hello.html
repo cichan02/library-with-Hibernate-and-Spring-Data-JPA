@@ -13,5 +13,9 @@
 		<br/>
 		<a th:href="@{/books}">List of books</a>
 	</div>
+	
+	<div style="color: red" th:if="${IllegalArgumentException}" >
+		<span th:text="${IllegalArgumentException.getMessage()}">Error message</span>
+	</div>	
 </body>
 </html>

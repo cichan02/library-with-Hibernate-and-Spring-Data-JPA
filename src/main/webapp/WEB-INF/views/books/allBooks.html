@@ -3,16 +3,35 @@
 <head>
 	<meta charset="UTF-8">
 	<title>All books</title>
+	<style>
+		.button {
+		  border: none;
+		  color: white;
+		  background-color: #4CAF50;
+		  padding: 16px 32px;
+		  text-align: center;
+		  text-decoration: none;
+		  display: inline-block;
+		  font-size: 16px;
+		  margin: 4px 2px;
+		  transition-duration: 0.4s;
+		  cursor: pointer;
+		}
+	</style>
 </head>
 
 <body>
+	<form th:method="get" th:action="@{/books/search}">
+		<input class="button" type="submit" value="Search a book!"/>
+	</form>
+	
 	<div th:each="book: ${books}">
 		<a th:href="@{/books/{id}(id=${book.getId()})}"
 			th:text="${book.getName()+ ', ' + book.getAuthor()+ ', ' + book.getYear()}">
 			Particular book</a>
-	</div>
-	
+	</div>	
 	<br/>
+	
 	<hr/>
 	
 	<a th:href="@{/books/new}">Add new book</a>

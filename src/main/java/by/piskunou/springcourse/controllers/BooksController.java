@@ -1,5 +1,6 @@
 package by.piskunou.springcourse.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import by.piskunou.springcourse.models.Book;
 import by.piskunou.springcourse.models.Person;
@@ -36,9 +38,21 @@ public class BooksController {
 	}
 
 	@GetMapping
-	public String allBooks(Model model) {
-		model.addAttribute("books", booksService.findAll());
-		return "books/allBooks";
+	public String allBooks(Model model,
+						@RequestParam(name = "page", required = false) Integer page,
+						@RequestParam(name = "books_per_page", required = false) Integer booksPerPage,
+						@RequestParam(name ="sort_by_year", required = false) boolean sortByYear){
+		try {
+			model.addAttribute("books", booksService.findAll(Optional.ofNullable(page),
+															Optional.ofNullable(booksPerPage),
+															sortByYear));
+			
+			return "books/allBooks";
+		} catch (IllegalArgumentException e) {
+			model.addAttribute("IllegalArgumentException", e);
+			
+			return "redirect:/";
+		}
 	}
 	
 	@GetMapping("/{id}")
@@ -69,7 +83,6 @@ public class BooksController {
 		if(bindingResult.hasErrors()) {
 			return "books/new";
 		}
-		
 		booksService.save(book);
 		return HOME_PAGE;
 	}
@@ -111,5 +124,14 @@ public class BooksController {
 	public String delete(@PathVariable int id) {
 		booksService.deleteById(id);
 		return HOME_PAGE;
+	}
+	
+	@GetMapping("/search")
+	public String search(Model model, @ModelAttribute String inquery) {
+		List<Book> foundBooks = booksService.findByNameContaining(inquery);
+		if(!foundBooks.isEmpty()) {
+			model.addAttribute("foundBooks", foundBooks);
+		}
+		return "books/search";
 	}
 }
