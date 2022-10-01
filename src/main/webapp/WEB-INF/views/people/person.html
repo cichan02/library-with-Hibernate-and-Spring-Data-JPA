@@ -15,7 +15,8 @@
 		<hr width="90%" size="10"/>
 		<h3>Books:</h3>
 		<div th:each="book: ${personBooks}">
-			<p th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYear()}">Particular book</p>
+			<p th:style="${book.isOverdue()} ? 'color: red' : 'color: black'"
+			   th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYear()}">Particular book</p>
 		</div>
 	</div>
 	

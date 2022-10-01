@@ -1,5 +1,8 @@
 package by.piskunou.springcourse.models;
 
+import java.time.LocalDate;
+import java.time.Period;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
@@ -16,6 +20,9 @@ import javax.validation.constraints.Positive;
 @Entity
 @Table(name = "Book")
 public class Book {
+	@Transient
+	private static final int OVERDUE_DAYS_PERIOD = 10;
+	
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +42,9 @@ public class Book {
 	@Positive(message = "Year must be positive")
 	private int year;
 	
+	@Column(name = "taken_at")
+	private LocalDate takenAt;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "person_id", referencedColumnName = "id")
 	private Person owner;
@@ -50,7 +60,6 @@ public class Book {
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -62,7 +71,6 @@ public class Book {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-
 	public int getYear() {
 		return year;
 	}
@@ -74,7 +82,6 @@ public class Book {
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -82,9 +89,20 @@ public class Book {
 	public Person getOwner() {
 		return owner;
 	}
-
 	public void setOwner(Person owner) {
 		this.owner = owner;
+	}
+
+	public LocalDate getTakenAt() {
+		return takenAt;
+	}
+	public void setTakenAt(LocalDate takenAt) {
+		this.takenAt = takenAt;
+	}
+	
+	public boolean isOverdue() {
+		Period period = Period.between(takenAt, LocalDate.now());
+		return !period.minusDays(OVERDUE_DAYS_PERIOD).isNegative();
 	}
 
 	@Override

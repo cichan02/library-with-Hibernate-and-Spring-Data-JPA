@@ -13,5 +13,6 @@ CREATE TABLE IF NOT EXISTS Book(
 	person_id int REFERENCES Person(id) ON DELETE SET NULL,
 	name varchar(100) NOT NULL,
 	author varchar(100) NOT NULL,
-	year int
+	year int,
+	taken_at date
 );

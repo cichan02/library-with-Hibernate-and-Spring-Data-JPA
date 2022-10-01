@@ -1,5 +1,6 @@
 package by.piskunou.springcourse.services;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -77,6 +78,7 @@ public class BooksService {
 	public void realese(int id) {
 		Optional<Book> book = findById(id);
 		if(book.isPresent()) {
+			book.get().setTakenAt(null);
 			book.get().setOwner(null);
 		}
 	}
@@ -85,6 +87,7 @@ public class BooksService {
 	public void appoint(int id, Person person) {
 		Optional<Book> book = findById(id);
 		if(book.isPresent()) {
+			book.get().setTakenAt(LocalDate.now());
 			book.get().setOwner(person);
 		}
 	}
