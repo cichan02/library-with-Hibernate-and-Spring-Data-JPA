@@ -127,8 +127,8 @@ public class BooksController {
 	}
 	
 	@GetMapping("/search")
-	public String search(Model model, @ModelAttribute String inquery) {
-		List<Book> foundBooks = booksService.findByNameContaining(inquery);
+	public String search(Model model, @RequestParam(name = "inquery", required = false) String inquery) {
+		List<Book> foundBooks = booksService.findByNameStartingWith(Optional.ofNullable(inquery));
 		if(!foundBooks.isEmpty()) {
 			model.addAttribute("foundBooks", foundBooks);
 		}

@@ -1,5 +1,6 @@
 package by.piskunou.springcourse.services;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,8 +50,11 @@ public class BooksService {
 		return findAll();
 	}
 	
-	public List<Book> findByNameContaining(String inquery) {
-		return booksRepo.findByNameContaining(inquery);
+	public List<Book> findByNameStartingWith(Optional<String> inquery) {
+		if(inquery.isEmpty()) {
+			return Collections.emptyList();
+		}
+		return booksRepo.findByNameStartingWith(inquery.get());
 	}
 	
 	@Transactional

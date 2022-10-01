@@ -6,9 +6,9 @@
 </head>
 
 <body>
-	<form th:method="get" th:action="@{/books/search}" th:object="${inquery}">
+	<form th:method="get" th:action="@{/books/search?inquery=inquery}">
 		<label for="inquery">Enter a query:</label>
-		<input type="text" th:object="${inquery}" id="inquery"/>
+		<input name=inquery type="text" id="inquery"/>
 		<br/>		
 		
 		<input type="submit" value="Search!"/>
