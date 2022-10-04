@@ -80,6 +80,7 @@ public class BooksService {
 		
 		updatedBook.setId(id);
 		updatedBook.setOwner(bookToBeUpdated.get().getOwner());
+		updatedBook.setTakenAt(bookToBeUpdated.get().getTakenAt());
 		
 		booksRepo.save(updatedBook);
 	}
