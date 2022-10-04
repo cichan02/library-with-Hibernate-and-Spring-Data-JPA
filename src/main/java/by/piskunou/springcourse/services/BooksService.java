@@ -33,6 +33,14 @@ public class BooksService {
 		return booksRepo.findAll();
 	}
 	
+	public List<Book> findAll(boolean sortByYear) {
+		if(sortByYear) {
+			return booksRepo.findAll(Sort.by("year"));
+		}
+		
+		return findAll();
+	}
+	
 	public List<Book> findAll(Optional<Integer> page,
 							Optional<Integer> booksPerPage,
 							boolean sortByYear) throws IllegalArgumentException {
@@ -48,7 +56,7 @@ public class BooksService {
 								.getContent();
 			}
 		}	
-		return findAll();
+		return findAll(sortByYear);
 	}
 	
 	public List<Book> findByNameStartingWith(Optional<String> inquery) {
@@ -65,7 +73,14 @@ public class BooksService {
 	
 	@Transactional
 	public void update(int id, Book updatedBook) {
+		Optional<Book> bookToBeUpdated = booksRepo.findById(id);
+		if(bookToBeUpdated.isEmpty()) {
+			return;
+		}
+		
 		updatedBook.setId(id);
+		updatedBook.setOwner(bookToBeUpdated.get().getOwner());
+		
 		booksRepo.save(updatedBook);
 	}
 	
